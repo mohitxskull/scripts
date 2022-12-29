@@ -4,7 +4,12 @@ This repository contains a collection of scripts that I use on a daily basis. I 
 
 ## Scripts
 
+`bash` -> Linux, MacOS
+
 ### `git.sh`
+source: `/src/git.src.sh`
+
+ don't get scared by the obfuscated code in `git.sh`, it is just a wrapper that will download the real script from github and execute it, it will take care that you use the `latest version` of the script.
 
 This script will help you with github cmds.
 
