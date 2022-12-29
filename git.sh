@@ -119,7 +119,6 @@ function pushChanges() {
     # Prompt the user for a commit message
     echo ""
     echo "Enter your commit message: "
-    echo ""
     read -r commitmsg
 
     # Create the commit

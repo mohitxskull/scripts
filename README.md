@@ -1,4 +1,4 @@
-# Scripts by: skull
+# Scripts by skull
 
 This repository contains a collection of scripts that I use on a daily basis. I have tried to make them as simple as possible, so that they can be easily understood and modified.
 
