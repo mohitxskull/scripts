@@ -4,8 +4,6 @@ This repository contains a collection of scripts that I use on a daily basis. I 
 
 ## Scripts
 
-`bash` -> Linux, MacOS
-
 ### `git.sh`
 source: `/src/git.src.sh`
 
@@ -28,3 +26,16 @@ Resolve conflicts options:
 - Discard both versions and start over.
 
 It has easy to use menus and will clear the terminal screen after each step.
+
+### `obf.sh`
+source: `obf.sh`
+
+this is a very simple script to ofuscate bash scripts.
+
+points to remember:
+- it does not check for syntax errors or anything like that.
+- it just base64 encodes the script and then decodes it and evals it.
+- it is not meant to be used for anything serious.
+- it is just a fun little project.
+
+usage: `obf.sh <script>`
