@@ -1,29 +1,44 @@
 #!/bin/bash
-f="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
-s="$HOME/.scriptsBySkull"
-p="$s/${f##*/}"
-l="$s/l"
-[ ! -d "$s" ] && mkdir "$s"
-[ ! -f "$l" ] && {touch "$l" echo 0>"$l"}
-if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
-    if [ ! -f "$p" ]; then
-        wget -q "$f" -O "$p"
-        date +%s >"$l"
-        bash "$p"
-    elif ! wget -q --spider "$f"; then
-        bash "src/${f##*/}"
-        exit 0
-    elif [ "$(($(date +%s) - $(cat "$l")))" -gt 86400 ]; then
-        wget -q "$f" -O "$p.t"
-        cmp -s "$p" "$p.t" || {rm "$p"
-        mv "$p.t" "$p"
-        date +%s >"$l"
-        bash "$p"}
-        rm "$p.t"
-        bash "$p"
+u="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
+d="$HOME/.sbs"
+[ ! -d "$d" ] && mkdir "$d"
+f="$d/$(basename "$u")"
+l="$d/lu"
+[ ! -f "$l" ] && touch "$l" && echo 0 >"$l"
+n=false
+ping -q -c 1 -W 1 8.8.8.8 >/dev/null && n=true
+e=false
+wget -q --spider "$u" && e=true
+if [ -f "$f" ]; then
+    if [ "$(($(date +%s) - $(cat "$l")))" -gt 86400 ]; then
+        if [ "$n" = true ]; then
+            if [ "$e" = true ]; then
+                wget -q "$u" -O "$f.t"
+                cmp -s "$f" "$f.t" || {rm "$f"
+                mv "$f.t" "$f"
+                date +%s >"$l"
+                bash "$f"}
+                rm "$f.t"
+                bash "$f"
+            else
+                bash "$f"
+            fi
+        else
+            bash "$f"
+        fi
     else
-        bash "$p"
+        bash "$f"
     fi
 else
-    bash "$p"
+    if [ "$n" = true ]; then
+        if [ "$e" = true ]; then
+            wget -q "$u" -O "$f"
+            date +%s >"$l"
+            bash "$f"
+        else
+            [ -f "src/$(basename "$u")" ] && bash "src/$(basename "$u")" || echo -e "\e[31mNo internet connection\e[0m"
+        fi
+    else
+        [ -f "src/$(basename "$u")" ] && bash "src/$(basename "$u")" || echo -e "\e[31mNo internet connection\e[0m"
+    fi
 fi
