@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Use this script to always have the latest version of the git script
+
 u="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
 d="$HOME/.sbs"
 [ ! -d "$d" ] && mkdir "$d"
@@ -11,8 +14,8 @@ e=false
 wget -q --spider "$u" && e=true
 if [ -f "$f" ]; then
     if [ "$(($(date +%s) - $(cat "$l")))" -gt 86400 ]; then
-        if [ "$n" = true ]; then
-            if [ "$e" = true ]; then
+        if [ "$n"=true ]; then
+            if [ "$e"=true ]; then
                 wget -q "$u" -O "$f.t"
                 cmp -s "$f" "$f.t" || {rm "$f"
                 mv "$f.t" "$f"
@@ -32,7 +35,9 @@ if [ -f "$f" ]; then
 else
     if [ "$n" = true ]; then
         if [ "$e" = true ]; then
-            wget -q "$u" -O "$f"
+            echo -e "\e[31mFile URL: $u\e[0m" && echo ""
+            read -p $'\e[31mAre you sure you want to download this file? [ check the file url above ] [y/N]\e[0m ' -n 1 -r </dev/tty && echo && [[ $REPLY =~ ^[Yy]$ ]] || exit 1 && echo "" && echo -e "\e[32mDownloading file...\e[0m" && sleep 1
+            wget -q "$u" -O "$f"    
             date +%s >"$l"
             bash "$f"
         else

@@ -58,6 +58,14 @@ if [ -f "$file_path" ]; then
 else
     if [ "$network_connection" = true ]; then
         if [ "$file_exists_on_url" = true ]; then
+
+            # file url in red
+            echo -e "\e[31mFile URL: $file_url\e[0m"
+            echo ""
+
+            # ask for double confirmation in red
+            read -p $'\e[31mAre you sure you want to download this file? [ check the file url above ] [y/N]\e[0m ' -n 1 -r </dev/tty && echo && [[ $REPLY =~ ^[Yy]$ ]] || exit 1 && echo "" && echo -e "\e[32mDownloading file...\e[0m" && sleep 1
+
             wget -q "$file_url" -O "$file_path"
             date +%s >"$last_update_file"
             bash "$file_path"
