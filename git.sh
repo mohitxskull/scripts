@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# Author: Skull
-# Description: This is an script which will help you with github cmds.
+AUTHOR="Skull"
 VERSION="2.3"
 
 # Function to resolve conflicts
@@ -145,7 +144,7 @@ echo "help you with github cmds."
 echo ""
 echo -e "version: \033[0;32m$VERSION\033[0m"
 echo ""
-echo -e "Author: \033[0;32mSkull\033[0m"
+echo -e "Author: \033[0;32m$AUTHOR\033[0m"
 echo "-------------------------------"
 echo ""
 
