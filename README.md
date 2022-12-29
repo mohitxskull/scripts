@@ -10,16 +10,16 @@ This script will help you with github cmds.
 
 It will help you with the following commands:
 
-- initialize a new repository
-- push changes to the remote
-- update and push changes to the remote
-- force push changes to the remote
+- initialize a new repository.
+- push changes to the remote.
+- update and push changes to the remote.
+- force push changes to the remote.
 - resolve conflicts.
 
 Resolve conflicts options:
-- Keep the version in the current branch
-- Keep the version in the remote branch
-- Keep both versions and create a new commit
-- Discard both versions and start over
+- Keep the version in the current branch.
+- Keep the version in the remote branch.
+- Keep both versions and create a new commit.
+- Discard both versions and start over.
 
 It has easy to use menus and will clear the terminal screen after each step.
