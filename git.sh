@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION="1.5"
+
 # url of the file and wrapper to check for updates
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
 wrapper_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh"
@@ -84,6 +86,23 @@ if [ "$network_connection" = true ]; then
     fi
 fi
 
+function get_fileversion() {
+    # check if the file exists
+    if [ -f "$1" ]; then
+        # check if the file has VERSION variable
+        if grep -q "VERSION=" "$1"; then
+            # get the value of VERSION variable
+            file_version=$(grep "VERSION=" "$1" | cut -d "=" -f 2)
+        else
+            # in red
+            echo -e "\e[31mVERSION variable not found in the file\e[0m"
+        fi
+    else
+        # in red
+        echo -e "\e[31mFile doesn't exist\e[0m"
+    fi
+}
+
 function update_wrapper() {
 
     # check if the wrapper exists on the url
@@ -93,8 +112,8 @@ function update_wrapper() {
 
         # check if the wrapper is downloaded
         if [ -f "$wrapper_temp_path" ]; then
-            # check if the wrapper is different
-            if ! cmp -s "$wrapper_temp_path" "$wrapper_path"; then
+            # check if the wrapper version is higher from the current one
+            if [ "$(get_fileversion "$wrapper_temp_path")" \> "$VERSION" ]; then
                 # replace the wrapper
                 mv "$wrapper_temp_path" "$wrapper_path"
 
@@ -129,8 +148,8 @@ function update_file() {
 
         # check if the file is downloaded
         if [ -f "$file_temp_path" ]; then
-            # check if the file is different
-            if ! cmp -s "$file_temp_path" "$file_path"; then
+            # check if the file VERSION is higher from the current one, get current file version from the store
+            if [ "$(get_fileversion "$file_temp_path")" \> "$(get_fileversion "$file_path")" ]; then
                 # replace the file
                 mv "$file_temp_path" "$file_path"
 
