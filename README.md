@@ -26,9 +26,13 @@ options:
 
 - `-u` to update the script from github. ( else script will be updated only if it is older than 1 day. )
 
-usage:
+usage: 
 
 `git.sh` or `git.sh -u`
+
+install:
+
+`curl -s https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh | bash`
 
 ### `obf.sh`
 
