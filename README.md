@@ -5,10 +5,11 @@ This repository contains a collection of scripts that I use on a daily basis. I 
 ## Scripts
 
 ### `git.sh`
+
 source: `/src/git.src.sh`
 wrapper: `git.sh`
 
-> don't get scared by the obfuscated code in `git.sh`, it is just a wrapper that will download the real script from github and execute it, it will take care that you use the `latest version` of the script.
+> don't get confuse by `git.sh` file its just a wrapper for `git.src.sh` which is the actual script. `git.sh` is just a wrapper to update the script from github.
 
 This script will help you with github cmds.
 
@@ -23,18 +24,20 @@ It has easy to use menus and will clear the terminal screen after each step.
 
 options:
 
-- `-f` or `--force` to update the script from github. ( else script will be updated only if it is older than 1 day. )
+- `-u` to update the script from github. ( else script will be updated only if it is older than 1 day. )
 
-usage: 
+usage:
 
-`git.sh` or `git.sh -f`
+`git.sh` or `git.sh -u`
 
 ### `obf.sh`
+
 source: `obf.sh`
 
 this is a very simple script to ofuscate bash scripts.
 
 points to remember:
+
 - it does not check for syntax errors or anything like that.
 - it just base64 encodes the script and then decodes it and evals it.
 - it is not meant to be used for anything serious.
@@ -43,6 +46,7 @@ points to remember:
 usage: `obf.sh <script>`
 
 ### `nm.sh`
+
 source: `nm.sh`
 
 nm.sh is an script to setup and next.js + mantine project.
