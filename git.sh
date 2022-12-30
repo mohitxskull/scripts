@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.7"
+VERSION="1.4"
 
 # url of the file and wrapper to check for updates
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
@@ -102,6 +102,8 @@ function get_fileversion() {
         if grep -q "VERSION=" "$1"; then
             # get the value of VERSION variable
             file_version=$(grep "VERSION=" "$1" | cut -d "=" -f 2)
+
+            echo "$file_version"
         else
             # in red
             echo -e "\e[31mVERSION variable not found in the file\e[0m"
@@ -116,13 +118,14 @@ function update_wrapper() {
 
     # check if the wrapper exists on the url
     if [ "$wrapper_exists_on_url" = true ]; then
-        # download the wrapper
+        # download the wrapper,
         wget -q "$wrapper_url" -O "$wrapper_temp_path"
 
         # check if the wrapper is downloaded
         if [ -f "$wrapper_temp_path" ]; then
             # check if the wrapper version is higher from the current one
             temp_wrapper_version=$(get_fileversion "$wrapper_temp_path")
+
             if [ "$temp_wrapper_version" \> "$VERSION" ]; then
                 # replace the wrapper
                 mv "$wrapper_temp_path" "$wrapper_path"
@@ -146,7 +149,9 @@ function update_wrapper() {
             # in red
             echo -e "\e[31mWrapper download failed\e[0m"
         fi
+
     else
+
         # in red
         echo -e "\e[31mWrapper doesn't exist on the url\e[0m"
     fi
