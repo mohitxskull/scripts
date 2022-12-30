@@ -70,18 +70,27 @@ else
     fi
 fi
 
-# check if the network is connected
-if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
+# check if the network is connected, add timeout of 1 seconds
+echo -e "\e[33mChecking network connection\e[0m"
+if wget -q --spider --timeout=1 google.com; then
+    # in yellow
+    echo -e "\e[33mNetwork connected\e[0m"
     network_connection=true
 fi
 
-# check if the both file & wrapper exists on the url if the network is connected
+# check if the both file & wrapper URL recchable with timeout of 1 seconds and try only 2 times
 if [ "$network_connection" = true ]; then
-    if wget -q --spider "$file_url"; then
+    # check if the file exists on the url
+    echo -e "\e[33mChecking file on the url\e[0m"
+    if wget -q --spider --timeout=1 --tries=2 "$file_url"; then
+        echo -e "\e[33mFile exists on the url\e[0m"
         file_exists_on_url=true
     fi
 
-    if wget -q --spider "$wrapper_url"; then
+    # check if the wrapper exists on the url
+    echo -e "\e[33mChecking wrapper on the url\e[0m"
+    if wget -q --spider --timeout=1 --tries=2 "$wrapper_url"; then
+        echo -e "\e[33mWrapper exists on the url\e[0m"
         wrapper_exists_on_url=true
     fi
 fi
