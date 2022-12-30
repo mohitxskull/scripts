@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.6"
+VERSION="1.7"
 
 # url of the file and wrapper to check for updates
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
@@ -113,9 +113,13 @@ function update_wrapper() {
         # check if the wrapper is downloaded
         if [ -f "$wrapper_temp_path" ]; then
             # check if the wrapper version is higher from the current one
-            if [ "$(get_fileversion "$wrapper_temp_path")" \> "$VERSION" ]; then
+            temp_wrapper_version=$(get_fileversion "$wrapper_temp_path")
+            if [ "$temp_wrapper_version" \> "$VERSION" ]; then
                 # replace the wrapper
                 mv "$wrapper_temp_path" "$wrapper_path"
+
+                # make the wrapper executable
+                chmod +x "$wrapper_path"
 
                 # set the last update time
                 echo "$(date +%s)" >"$wrapper_last_update_file"
@@ -149,9 +153,14 @@ function update_file() {
         # check if the file is downloaded
         if [ -f "$file_temp_path" ]; then
             # check if the file VERSION is higher from the current one, get current file version from the store
-            if [ "$(get_fileversion "$file_temp_path")" \> "$(get_fileversion "$file_path")" ]; then
+            temp_file_version=$(get_fileversion "$file_temp_path")
+            current_file_version=$(get_fileversion "$file_path")
+            if [ "$temp_file_version" \> "$current_file_version" ]; then
                 # replace the file
                 mv "$file_temp_path" "$file_path"
+
+                # make the file executable
+                chmod +x "$file_path"
 
                 # set the last update time
                 echo "$(date +%s)" >"$file_last_update_file"
@@ -186,6 +195,9 @@ function download_file() {
         if [ -f "$file_path" ]; then
             # set the last update time
             echo "$(date +%s)" >"$file_last_update_file"
+
+            # make the file executable
+            chmod +x "$file_path"
 
             # in green
             echo -e "\e[32mFile downloaded\e[0m"
