@@ -6,6 +6,7 @@ This repository contains a collection of scripts that I use on a daily basis. I 
 
 ### `git.sh`
 source: `/src/git.src.sh`
+wrapper: `git.sh`
 
 > don't get scared by the obfuscated code in `git.sh`, it is just a wrapper that will download the real script from github and execute it, it will take care that you use the `latest version` of the script.
 
@@ -17,15 +18,16 @@ It will help you with the following commands:
 - push changes to the remote.
 - update and push changes to the remote.
 - force push changes to the remote.
-- resolve conflicts.
-
-Resolve conflicts options:
-- Keep the version in the current branch.
-- Keep the version in the remote branch.
-- Keep both versions and create a new commit.
-- Discard both versions and start over.
 
 It has easy to use menus and will clear the terminal screen after each step.
+
+options:
+
+- `-f` or `--force` to update the script from github. ( else script will be updated only if it is older than 1 day. )
+
+usage: 
+
+`git.sh` or `git.sh -f`
 
 ### `obf.sh`
 source: `obf.sh`
@@ -39,3 +41,10 @@ points to remember:
 - it is just a fun little project.
 
 usage: `obf.sh <script>`
+
+### `nm.sh`
+source: `nm.sh`
+
+nm.sh is an script to setup and next.js + mantine project.
+
+usage: `nm.sh <project name>`

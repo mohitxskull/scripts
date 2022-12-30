@@ -1,50 +1,7 @@
 #!/bin/bash
 
 AUTHOR="Skull"
-VERSION="2.3"
-
-# Function to resolve conflicts
-function resolveConflicts() {
-    clear
-    echo ""
-    echo "-------------------------------"
-    echo "Select a conflict resolution method:"
-    echo "-------------------------------"
-    echo "1: Keep the version in the current branch"
-    echo "2: Keep the version in the remote branch"
-    echo "3: Keep both versions and create a new commit"
-    echo "4: Discard both versions and start over"
-    echo "-------------------------------"
-    echo ""
-    read -r conflictOption
-
-    case "$conflictOption" in
-    1)
-        # Keep the version in the current branch
-        git checkout --ours .
-        git add .
-        git commit -m "Resolved conflicts by keeping the version in the current branch"
-        ;;
-    2)
-        # Keep the version in the remote branch
-        git checkout --theirs .
-        git add .
-        git commit -m "Resolved conflicts by keeping the version in the remote branch"
-        ;;
-    3)
-        # Keep both versions and create a new commit
-        git add .
-        git commit -m "Resolved conflicts by keeping both versions"
-        ;;
-    4)
-        # Discard both versions and start over
-        git checkout .
-        git clean -df
-        git pull --ff origin main
-        ;;
-    *) echo "Invalid option. Please try again." ;;
-    esac
-}
+VERSION="2.1"
 
 # Function to initialize a new Git repository and add a remote
 function setupRepo() {
@@ -159,7 +116,6 @@ if [ -a ".git" ]; then
     echo "2: Push changes to the remote"
     echo "3: Update and push changes to the remote"
     echo -e "4: Force push changes to the remote \033[0;33m(Warning: this will overwrite any changes on the remote)\033[0m"
-    echo "5: Resolve conflicts"
     echo "-------------------------------"
     echo ""
     read -r selectedOption
@@ -169,7 +125,6 @@ if [ -a ".git" ]; then
     2) pushChanges ;;
     3) pushChanges "U" ;;
     4) pushChanges "U" "F" ;;
-    5) resolveConflicts ;;
     *) echo "Invalid option. Please try again." ;;
     esac
 

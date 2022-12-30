@@ -35,10 +35,19 @@ if wget -q --spider "$file_url"; then
     file_exists_on_url=true
 fi
 
+force_update=false
+
+# -f or --force to force update
+if [ "$1" = "-f" ] || [ "$1" = "--force" ]; then
+    force_update=true
+fi
+
 if [ -f "$file_path" ]; then
-    if [ "$(($(date +%s) - $(cat "$last_update_file")))" -gt 86400 ]; then
+    # check for update is true, update the file else check file older than 1 day
+    if [ "$force_update" = true ] || [ "$(($(date +%s) - $(cat "$last_update_file")))" -gt 86400 ]; then
         if [ "$network_connection" = true ]; then
             if [ "$file_exists_on_url" = true ]; then
+                echo "" && echo -e "\e[32mDownloading file...\e[0m" && sleep 1
                 wget -q "$file_url" -O "$file_path.t"
                 cmp -s "$file_path" "$file_path.t" || {rm "$file_path"
                 mv "$file_path.t" "$file_path"
