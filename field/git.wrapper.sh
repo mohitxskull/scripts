@@ -42,6 +42,48 @@ if [ "$1" = "-f" ] || [ "$1" = "--force" ]; then
     force_update=true
 fi
 
+update_self=false
+
+# -u or --update to update the wrapper
+if [ "$1" = "-u" ] || [ "$1" = "--update" ]; then
+    update_self=true
+fi
+
+# if update self is true, update the wrapper else check if the file exists
+wrapper_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh"
+# wrapper will always be in current directory
+# only while checking for updates, the temporary file will be in the store directory
+wrapper_path="$(basename "$wrapper_url")"
+wrapper_temp_path="$store_dir/$(basename "$wrapper_url").t"
+wrapper_last_update_file="$store_dir/luw"
+
+if [ ! -f "$wrapper_last_update_file" ]; then
+    touch "$wrapper_last_update_file"
+    echo 0 >"$wrapper_last_update_file"
+fi
+
+# after updating the wrapper, dont run the script just exit and prin the message in green
+if [ "$update_self" = true ]; then
+    if [ "$network_connection" = true ]; then
+        if [ "$file_exists_on_url" = true ]; then
+            echo "" && echo -e "\e[32mDownloading wrapper...\e[0m" && sleep 1
+            wget -q "$wrapper_url" -O "$wrapper_temp_path"
+            cmp -s "$wrapper_path" "$wrapper_temp_path" || {rm "$wrapper_path"
+            mv "$wrapper_temp_path" "$wrapper_path"
+            date +%s >"$wrapper_last_update_file"
+            echo -e "\e[32mWrapper updated successfully\e[0m"}
+            rm "$wrapper_temp_path"
+            exit 0
+        else
+            echo -e "\e[31mFile not found on URL\e[0m"
+            exit 1
+        fi
+    else
+        echo -e "\e[31mNo network connection\e[0m"
+        exit 1
+    fi
+fi
+
 if [ -f "$file_path" ]; then
     # check for update is true, update the file else check file older than 1 day
     if [ "$force_update" = true ] || [ "$(($(date +%s) - $(cat "$last_update_file")))" -gt 86400 ]; then
