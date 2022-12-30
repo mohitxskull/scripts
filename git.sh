@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.5"
+VERSION="1.6"
 
 # url of the file and wrapper to check for updates
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
@@ -222,24 +222,25 @@ if [ "$update_wrapper" = true ] && [ "$force_file_update" = true ]; then
 
     # run the file
     bash "$file_path"
-fi
 
-# if both false
-if [ "$update_wrapper" = false ] && [ "$force_file_update" = false ]; then
-    # check file exists in store
-    if [ "$file_exists_in_store" = true ]; then
-        # check if the file is older then 1 day
-        if [ "$file_older_then_1_day" = true ]; then
-            update_file
+else
+    # if both false
+    if [ "$update_wrapper" = false ] && [ "$force_file_update" = false ]; then
+        # check file exists in store
+        if [ "$file_exists_in_store" = true ]; then
+            # check if the file is older then 1 day
+            if [ "$file_older_then_1_day" = true ]; then
+                update_file
+            fi
+
+            # run the file
+            bash "$file_path"
+        else
+            # download the file
+            download_file
+
+            # run the file
+            bash "$file_path"
         fi
-
-        # run the file
-        bash "$file_path"
-    else
-        # download the file
-        download_file
-
-        # run the file
-        bash "$file_path"
     fi
 fi

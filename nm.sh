@@ -90,6 +90,7 @@ export default class _Document extends Document {
 EOF
 
 cat >"pages/_app.tsx" <<EOF
+import React from "react";
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
