@@ -12,18 +12,7 @@ function setupRepo() {
     echo "Initializing new Git repository..."
     rm -rf .git
 
-    # branch name
-    echo ""
-    echo "Enter the branch name (default: main): "
-    read -r branchname
-    if [[ -z "$branchname" ]]; then
-        branchname="main"
-    fi
-
-    git init -b "$branchname"
-
-    echo ""
-    echo -e "\033[0;32mSuccessfully initialized new Git repository with branch name: $branchname\033[0m"
+    git init
 
     # Set the user's email and name
     echo ""
@@ -116,6 +105,22 @@ function pushChanges() {
     fi
 }
 
+# Add a new branch
+function addBranch() {
+    # Prompt the user for a branch name
+    echo ""
+    echo "Enter the name of the new branch: "
+    read -r branchname
+
+    # Create the branch
+    git checkout "$branchname"
+
+    # success in green color
+    echo ""
+    echo -e "\033[0;32mSuccessfully created branch: $branchname\033[0m"
+    echo ""
+}
+
 echo ""
 echo "-------------------------------"
 echo "This is an script which will"
@@ -138,6 +143,7 @@ if [ -a ".git" ]; then
     echo "2: Push changes to the remote"
     echo "3: Update and push changes to the remote"
     echo -e "4: Force push changes to the remote \033[0;33m(Warning: this will overwrite any changes on the remote)\033[0m"
+    echo "5: Add branch"
     echo "-------------------------------"
     echo ""
     read -r selectedOption
