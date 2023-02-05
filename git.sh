@@ -1,9 +1,10 @@
 #!/bin/bash
 
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
-self_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.sh"
+self_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh"
 store="$HOME/.sbs"
 lu="$store/lu"
+# test
 
 if [ ! -d "$store" ]; then
     mkdir "$store"
