@@ -22,7 +22,7 @@ fi
 # self update -s flag
 if [ "$1" = "-s" ]; then
     echo "" && echo -e "\e[32mUpdating self...\e[0m" && echo ""
-    curl -s "$self_url" >"$0"
+    curl -H "Cache-Control: no-cache" -s "$self_url" >"$0"
     chmod +x "$0"
     exit
 fi
