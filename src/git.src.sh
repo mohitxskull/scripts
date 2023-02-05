@@ -65,14 +65,8 @@ function pushChanges() {
 
     clear
 
-    # give option to type the branch name, if not main will be used
-    echo ""
-    echo "Select the branch name (default: main):"
-    echo ""
-    read -r branchname
-    if [[ "$branchname" == "" ]]; then
-        branchname="main"
-    fi
+    # branch name = current branch name
+    branchname=$(git branch --show-current)
 
     if [[ "$1" == "U" ]]; then
         clear
@@ -99,7 +93,7 @@ function pushChanges() {
     echo ""
 
     # print selected branch name
-    echo "Selected branch: $branchname"
+    echo "Current branch: $branchname"
     echo ""
 
     # Push the changes to the remote
@@ -113,6 +107,29 @@ function pushChanges() {
     fi
 }
 
+# switch branch function
+function switchBranch() {
+    clear
+    echo ""
+    # print current branch name
+    echo -e "Current branch: \033[0;32m$(git branch --show-current)\033[0m"
+    echo ""
+    echo "Available branches:"
+    # print in green color the available branches
+    echo -e "\033[0;32m$(git branch -r)\033[0m"
+    echo ""
+    echo "Select the branch name:"
+    read -r branchname
+    if [[ "$branchname" == "" ]]; then
+        echo "Invalid branch name"
+        return 1
+    fi
+    git checkout "$branchname"
+    echo ""
+    echo -e "Switched to \033[0;32m$branchname\033[0m branch"
+    echo ""
+}
+
 echo ""
 echo "-------------------------------"
 echo "This is an script which will"
@@ -124,6 +141,8 @@ echo -e "Author: \033[0;32m$AUTHOR\033[0m"
 echo "-------------------------------"
 echo ""
 
+git fetch --all
+
 # Check if a Git repository has been set up
 if [ -a ".git" ]; then
 
@@ -133,11 +152,16 @@ if [ -a ".git" ]; then
     # print current branch name
     echo -e "Current branch: \033[0;32m$(git branch --show-current)\033[0m"
     echo ""
+    echo "Available branches:"
+    # print in green color the available branches
+    echo -e "\033[0;32m$(git branch -r)\033[0m"
+    echo ""
     echo "-------------------------------"
     echo "1: Initialize a new repository"
     echo "2: Push changes to the remote"
     echo "3: Update and push changes to the remote"
     echo -e "4: Force push changes to the remote \033[0;33m(Warning: this will overwrite any changes on the remote)\033[0m"
+    echo -e "5: Switch branch"
     echo "-------------------------------"
     echo ""
     read -r selectedOption
@@ -147,6 +171,7 @@ if [ -a ".git" ]; then
     2) pushChanges ;;
     3) pushChanges "U" ;;
     4) pushChanges "U" "F" ;;
+    5) switchBranch ;;
     *) echo "Invalid option. Please try again." ;;
     esac
 
