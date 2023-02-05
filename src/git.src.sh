@@ -12,7 +12,20 @@ function setupRepo() {
     echo "Initializing new Git repository..."
     rm -rf .git
 
-    git init
+    # option to select the branch default name
+    echo ""
+    echo "Select the default branch name (default: main):"
+    echo ""
+    read -r branchname
+    if [[ "$branchname" == "" ]]; then
+        branchname="main"
+    fi
+
+    git init -m "$branchname"
+
+    echo ""
+
+    echo -e "Git repository initialized with \033[0;32m$branchname\033[0m as default branch."
 
     # Set the user's email and name
     echo ""
