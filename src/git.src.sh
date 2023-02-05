@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AUTHOR="Skull"
-VERSION="2.1"
+VERSION="2.2"
 
 # Function to initialize a new Git repository and add a remote
 function setupRepo() {
