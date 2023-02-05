@@ -59,7 +59,7 @@ function setupRepo() {
 # Arguments:
 #   - $1: option for pulling changes before pushing (U = update, F = update and force push)
 function pushChanges() {
-    mapfile -t branches < <(git branch -r | grep -v HEAD | sed 's/origin\///g')
+    mapfile -t branches < <(git branch -r | grep -v HEAD | sed 's/origin\///')
 
     # give the user the option to select a branch if more than one exists
     if [ ${#branches[@]} -gt 1 ]; then
