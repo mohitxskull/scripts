@@ -125,7 +125,7 @@ function switchBranch() {
     # print in green color the available branches
     echo -e "\033[0;32m$(git branch -r)\033[0m"
     echo ""
-    echo "Select the branch name:"
+    echo "Type the branch name you want to switch to (e.g. main):"
     read -r branchname
     if [[ "$branchname" == "" ]]; then
         echo "Invalid branch name"
