@@ -59,12 +59,27 @@ function setupRepo() {
 # Arguments:
 #   - $1: option for pulling changes before pushing (U = update, F = update and force push)
 function pushChanges() {
+    mapfile -t branches < <(git branch -r | grep -v HEAD | sed 's/origin\///g')
+
+    # give the user the option to select a branch if more than one exists
+    if [ ${#branches[@]} -gt 1 ]; then
+        echo "Select a branch to push to:"
+        echo ""
+        for i in "${!branches[@]}"; do
+            echo "$((i + 1)): ${branches[$i]}"
+        done
+        echo ""
+        read -r selectedBranch
+    else
+        selectedBranch=1
+    fi
+
     if [[ "$1" == "U" ]]; then
         clear
 
         # Pull the latest changes from the remote
         echo "Pulling latest changes from remote..."
-        git pull --ff origin main
+        git pull --ff origin "${branches[$((selectedBranch - 1))]}"
     fi
 
     # Add all changed files
@@ -87,10 +102,10 @@ function pushChanges() {
     if [[ "$2" == "F" ]]; then
         # Force push to resolve any non-fast-forward conflicts
         echo "Pushing changes to remote (resolving non-fast-forward conflicts)..."
-        git push -u -f origin main
+        git push -u -f origin "${branches[$((selectedBranch - 1))]}"
     else
         echo "Pushing changes to remote..."
-        git push -u origin main
+        git push -u origin "${branches[$((selectedBranch - 1))]}"
     fi
 }
 
