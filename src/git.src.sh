@@ -120,20 +120,46 @@ function pushChanges() {
     fi
 }
 
-# Add a new branch
+# Function to add a new branch
+# Arguments:
+#   - $1: option for switching to the new branch (S = switch)
 function addBranch() {
     # Prompt the user for a branch name
     echo ""
-    echo "Enter the name of the new branch: "
+    echo "Enter the branch name: "
     read -r branchname
 
     # Create the branch
-    git checkout "$branchname"
+    git checkout -b "$branchname"
 
-    # success in green color
-    echo ""
-    echo -e "\033[0;32mSuccessfully created branch: $branchname\033[0m"
-    echo ""
+    if [[ "$1" == "S" ]]; then
+        # Switch to the new branch
+        git checkout "$branchname"
+    fi
+}
+
+# Function to switch to a branch
+function switchBranch() {
+    mapfile -t branches < <(git branch -r | grep -v HEAD | sed 's/origin\///')
+
+    # give the user the option to select a branch if more than one exists
+    if [ ${#branches[@]} -gt 1 ]; then
+        echo "Select a branch to switch to:"
+        echo ""
+        for i in "${!branches[@]}"; do
+            echo "$((i + 1)): ${branches[$i]}"
+        done
+        echo ""
+        read -r selectedBranch
+    else
+        selectedBranch=1
+    fi
+
+    # trim spaces around the selected branch
+    branches[selectedBranch - 1]="${branches[$((selectedBranch - 1))]// /}"
+
+    # Switch to the selected branch
+    git checkout "${branches[$((selectedBranch - 1))]}"
 }
 
 echo ""
@@ -153,12 +179,21 @@ if [ -a ".git" ]; then
     echo "Git repository already exists."
     echo "What would you like to do?"
     echo ""
+    # print current branch name
+    echo -e "Current branch: \033[0;32m$(git branch --show-current)\033[0m"
+    echo ""
+    # print all branches, trim spaces and remove the "origin/" prefix
+    echo "All branches:"
+    echo -e "\033[0;32m$(git branch -r | grep -v HEAD | sed 's/origin\///' | sed 's/ //g')\033[0m"
+    echo ""
     echo "-------------------------------"
     echo "1: Initialize a new repository"
     echo "2: Push changes to the remote"
     echo "3: Update and push changes to the remote"
     echo -e "4: Force push changes to the remote \033[0;33m(Warning: this will overwrite any changes on the remote)\033[0m"
-    echo "5: Add branch"
+    # note in green that "55: add branch and switch to it"
+    echo -e "5: Add branch \033[0;32m(55: add branch and switch to it)\033[0m"
+    echo "6: Switch branch"
     echo "-------------------------------"
     echo ""
     read -r selectedOption
@@ -169,6 +204,8 @@ if [ -a ".git" ]; then
     3) pushChanges "U" ;;
     4) pushChanges "U" "F" ;;
     5) addBranch ;;
+    55) addBranch "S" ;;
+    6) switchBranch ;;
     *) echo "Invalid option. Please try again." ;;
     esac
 
