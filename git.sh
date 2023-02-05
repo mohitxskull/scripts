@@ -5,8 +5,8 @@ VERSION="0.8"
 echo ""
 echo -e "\e[32mGit script v$VERSION\e[0m"
 
-file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
-self_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh"
+file_url="https://raw.githubusercontent.com/mohitxskull/scripts/main/src/git.src.sh"
+self_url="https://raw.githubusercontent.com/mohitxskull/scripts/main/git.sh"
 store="$HOME/.sbs"
 lu="$store/lu"
 
