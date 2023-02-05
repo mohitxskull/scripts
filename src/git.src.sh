@@ -74,10 +74,8 @@ function pushChanges() {
         selectedBranch=1
     fi
 
-    # print selected branch
-    echo ""
-    echo "Selected branch: ${branches[$((selectedBranch - 1))]}"
-    echo ""
+    # trim spaces around the selected branch
+    branches[selectedBranch - 1]="${branches[$((selectedBranch - 1))]// /}"
 
     if [[ "$1" == "U" ]]; then
         clear
