@@ -1,10 +1,14 @@
 #!/bin/bash
 
+VERSION="0.8"
+
+echo ""
+echo -e "\e[32mGit script v$VERSION\e[0m"
+
 file_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/src/git.src.sh"
 self_url="https://raw.githubusercontent.com/servedbyskull/scripts/main/git.sh"
 store="$HOME/.sbs"
 lu="$store/lu"
-# test
 
 if [ ! -d "$store" ]; then
     mkdir "$store"
@@ -23,7 +27,8 @@ if [ "$1" = "-s" ]; then
     exit
 fi
 
-if [ "$1" = "-u" ] || [ "$(($(date +%s) - $(cat "$lu")))" -gt 86400 ]; then
+# -u flag to update file
+if [ ! -f "$store/$(basename "$file_url")" ] || [ "$(date +%s)" -gt "$(($(cat "$lu") + 86400))" ] || [ "$1" = "-u" ]; then
     echo "" && echo -e "\e[32mUpdating file...\e[0m" && echo ""
     # use -H to avoid caching
     curl -H "Cache-Control: no-cache" -s "$file_url" >"$store/$(basename "$file_url")"
