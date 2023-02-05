@@ -101,6 +101,10 @@ function pushChanges() {
     clear
     echo ""
 
+    # print selected branch name
+    echo "Selected branch: ${branches[$((selectedBranch - 1))]}"
+    echo ""
+
     # Push the changes to the remote
     if [[ "$2" == "F" ]]; then
         # Force push to resolve any non-fast-forward conflicts
