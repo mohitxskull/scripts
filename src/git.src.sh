@@ -23,6 +23,7 @@ function setupRepo() {
     echo ""
 
     git init -b main
+    git checkout -b main
 
     echo ""
 
@@ -167,6 +168,7 @@ if [ -a ".git" ]; then
     2) pushChanges ;;
     3) pushChanges "U" ;;
     4) pushChanges "U" "F" ;;
+    5) addBranch ;;
     *) echo "Invalid option. Please try again." ;;
     esac
 
